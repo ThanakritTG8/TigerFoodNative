@@ -3,6 +3,7 @@ package com.thanakrit.tigerfoodnative;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,15 +19,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
+
     private FirebaseAuth mAuth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        testFireStore();
+
     }
 
     private void testFireStore(){
@@ -57,16 +68,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            openpage(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+
                         }
                     }
                 });
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         Log.w(TAG, "sign out");
         mAuth.signOut();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        openpage(currentUser);
     }
 
     @Override
@@ -86,20 +97,22 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            updateUI(currentUser);
+            openpage(currentUser);
         }
     }
 
-    public void updateUI(FirebaseUser currentUser){
+    public void openpage(FirebaseUser currentUser){
         final String TAG = "updateUI";
-        TextView loginName = findViewById(R.id.textView);
+
         if(currentUser != null){
             Log.d(TAG, currentUser.getEmail());
+            Intent intent = new Intent(this, ListActivity.class);
+            startActivity(intent);
 
-            loginName.setText(currentUser.getEmail());
         }
         else{
-            loginName.setText("");
+        Toast.makeText(this,"Hello World", Toast.LENGTH_SHORT).show();
+
         }
     }
 

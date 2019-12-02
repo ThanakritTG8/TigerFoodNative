@@ -7,7 +7,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+//    private ArrayList<Restaurent> mDataset;
 
     private String[] mDataset;
 
@@ -34,7 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textView.setText(mDataset[position]);
     }
 
@@ -42,4 +46,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public int getItemCount() {
         return mDataset.length;
     }
+
+
 }

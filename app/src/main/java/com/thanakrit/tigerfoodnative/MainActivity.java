@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private void testFireStore(){
         final String TAG = "testFireStore";
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("recommended")
+        db.collection("restaurent")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void sigoutClick(View view){
-        final String TAG = "sigoutClick";
-        Log.w(TAG, "sign out");
-        mAuth.signOut();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        openpage(currentUser);
-    }
+//    public void sigoutClick(View view){
+//        final String TAG = "sigoutClick";
+//        Log.w(TAG, "sign out");
+//        mAuth.signOut();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        openpage(currentUser);
+//    }
 
     @Override
     public void onStart() {
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openpage(FirebaseUser currentUser){
-        final String TAG = "updateUI";
+        final String TAG = "open page";
 
         if(currentUser != null){
             Log.d(TAG, currentUser.getEmail());

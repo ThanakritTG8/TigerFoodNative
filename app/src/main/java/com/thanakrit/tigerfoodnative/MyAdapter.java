@@ -1,8 +1,12 @@
 package com.thanakrit.tigerfoodnative;
 
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,41 +15,40 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-//    private ArrayList<Restaurent> mDataset;
+    Context context;
+    private ArrayList<Restaurent> restaurent;
 
-    private String[] mDataset;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView textView;
-        public MyViewHolder(TextView v) {
-            super(v);
-            textView = v;
-        }
+    public MyAdapter(Context con, ArrayList<Restaurent> res) {
+        this.context = con;
+        this.restaurent = res;
     }
 
-    public MyAdapter(String[] myDataset) {
-        mDataset = myDataset;
-    }
-
+    @NonNull
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview,parent,false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(mDataset[position]);
+        holder.textView.setText(restaurent.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return restaurent.size();
     }
 
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView textView;
+        public ImageView pic;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.name);
+            pic = (ImageView) itemView.findViewById(R.id.pic);
+        }
+    }
 }

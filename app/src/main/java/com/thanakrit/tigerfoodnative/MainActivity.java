@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            openpage(user);
+                            openpage();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -97,23 +97,28 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            openpage(currentUser);
+//            openpage();
+            Toast.makeText(this,"Hello " + currentUser, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"Hello ", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void openpage(FirebaseUser currentUser){
+    public void openpage(){
         final String TAG = "open page";
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
 
-        if(currentUser != null){
-            Log.d(TAG, currentUser.getEmail());
-            Intent intent = new Intent(this, ListActivity.class);
-            startActivity(intent);
-
-        }
-        else{
-        Toast.makeText(this,"Hello World", Toast.LENGTH_SHORT).show();
-
-        }
-    }
+//        if(currentUser != null){
+//            Log.d(TAG, currentUser.getEmail());
+//            Intent intent = new Intent(this, ListActivity.class);
+//            startActivity(intent);
+//
+//        }
+//        else{
+//        Toast.makeText(this,"Hello World", Toast.LENGTH_SHORT).show();
+//
+//        }
+  }
 
 }

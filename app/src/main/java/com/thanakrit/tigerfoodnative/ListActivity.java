@@ -7,9 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -20,12 +26,15 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView;
+    MyAdapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    DatabaseReference reference;
+    ArrayList<Restaurent> restaurent;
+
 //    private String[] myDataset = {"item1","item2"}; //login ไม่ได้
 //    ArrayList<Restaurent> myDataset;
-    private String[] myDataset ={};//ขึ้น
+//    private String[] myDataset ={};//ขึ้น
 
 //    public ListActivity(){
 //        myDataset = new ArrayList<Restaurent>();
@@ -38,13 +47,32 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-        recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(this);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new MyAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
+        reference = FirebaseDatabase.getInstance().getReference().child("restaurent");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                restaurent = new ArrayList<Restaurent>();
+
+                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    Restaurent rest = dataSnapshot1.getValue(Restaurent.class);
+                    restaurent.add(rest);
+                }
+
+                mAdapter = new MyAdapter(ListActivity.this,restaurent);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(ListActivity.this, "Error",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 //        testList();
 

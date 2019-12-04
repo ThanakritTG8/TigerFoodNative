@@ -30,8 +30,6 @@ public class ListActivity extends AppCompatActivity {
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
 
- //   private String[] myDataset = {"item1","item2"}; //login
-
     ArrayList<String> firebaseData = new ArrayList<String>();
 
 
@@ -46,9 +44,6 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         testList();
-
-
-
 
     }
 
@@ -73,8 +68,5 @@ public class ListActivity extends AppCompatActivity {
                         recyclerView.setAdapter(mAdapter);
                     }
                 });
-
     }
-
-
 }

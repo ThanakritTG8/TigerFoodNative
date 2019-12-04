@@ -83,21 +83,15 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-//    public void sigoutClick(View view){
-//        final String TAG = "sigoutClick";
-//        Log.w(TAG, "sign out");
-//        mAuth.signOut();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        openpage(currentUser);
-//    }
+
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-//            openpage();
+
             Toast.makeText(this,"Hello " + currentUser, Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this,"Hello ", Toast.LENGTH_SHORT).show();
@@ -109,16 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
 
-//        if(currentUser != null){
-//            Log.d(TAG, currentUser.getEmail());
-//            Intent intent = new Intent(this, ListActivity.class);
-//            startActivity(intent);
-//
-//        }
-//        else{
-//        Toast.makeText(this,"Hello World", Toast.LENGTH_SHORT).show();
-//
-//        }
+
   }
 
 }

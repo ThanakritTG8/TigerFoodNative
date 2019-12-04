@@ -27,18 +27,13 @@ public class ListActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     RecyclerView recyclerView;
-    MyAdapter mAdapter;
+    RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
-    DatabaseReference reference;
-    ArrayList<Restaurent> restaurent;
 
-//    private String[] myDataset = {"item1","item2"}; //login ไม่ได้
-//    ArrayList<Restaurent> myDataset;
-//    private String[] myDataset ={};//ขึ้น
+ //   private String[] myDataset = {"item1","item2"}; //login
 
-//    public ListActivity(){
-//        myDataset = new ArrayList<Restaurent>();
-//    }
+    ArrayList<String> firebaseData = new ArrayList<String>();
+
 
 
     @Override
@@ -50,51 +45,36 @@ public class ListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-
-        reference = FirebaseDatabase.getInstance().getReference().child("restaurent");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                restaurent = new ArrayList<Restaurent>();
-
-                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
-                    Restaurent rest = dataSnapshot1.getValue(Restaurent.class);
-                    restaurent.add(rest);
-                }
-
-                mAdapter = new MyAdapter(ListActivity.this,restaurent);
-                recyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ListActivity.this, "Error",Toast.LENGTH_SHORT).show();
-            }
-        });
+        testList();
 
 
 
-//        testList();
 
     }
 
-//    private void testList() {
-//        final String TAG = "testList";
-//
-//        db.collection("restaurent")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()){
-//                            for (QueryDocumentSnapshot document : task.getResult()){
-//                                StringBuilder data = new StringBuilder("");
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//                        }
-//                    }
-//                });
-//    }
+    private void testList() {
+        final String TAG = "testList";
+
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("restaurent")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()){
+                                StringBuilder data = new StringBuilder("");
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                firebaseData.add(document.getId());
+                            }
+                        }
+                        mAdapter = new MyAdapter(firebaseData);
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                });
+
+    }
 
 
 }
